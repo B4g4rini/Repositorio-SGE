@@ -51,7 +51,18 @@
         {
             <tr>
                 <td>
-                    @Html.DisplayFor(modelItem => item.UrlFoto)
+                    @{
+                        var filePath = Directory.GetCurrentDirectory() + "\\Data\\Content\\Photo\\" + item.UrlFoto;
+                        if (System.IO.File.Exists(filePath))
+                        {
+                            // Carrega a imagem em memória
+                            var imageBytes = await System.IO.File.ReadAllBytesAsync(filePath);
+                            var imageBase64 = Convert.ToBase64String(imageBytes);
+
+                            // Exibe a imagem na view
+                            <img src="data:image/png;base64,@imageBase64" alt="Foto do Perfil" height="100" />
+                        }
+                    }
                 </td>
 
                 <td>
